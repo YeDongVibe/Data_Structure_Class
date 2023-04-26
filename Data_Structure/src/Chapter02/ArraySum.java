@@ -4,22 +4,23 @@ import java.util.Random;
 
 public class ArraySum {
 
-		static void getArr (int [][] A) {
+		static void getArr (int [][] arr) {
 			//난수 생성하여 배열에 입력
 			Random rand = new Random(System.currentTimeMillis()); //초기 ceed값
-			for(int i = 0; i <A.length; i++) {
-				for(int j = 0; j < A.length; j++) {
-					A [i][j] = rand.nextInt(10); //10이하 정수 출력
+			for(int i = 0; i <arr.length; i++) {
+				for(int j = 0; j < arr.length; j++) {
+					arr [i][j] = rand.nextInt(10); //10이하 정수 출력
 				}
 
 			}
 
 	}
-		static void ShowMatrix (int [][] A, int [][] B, int [][] C, int [][] D) {
+		static void ShowMatrix (int [][] arr) {
 			for(int i = 0; i<2; i++) {
 				for(int j = 0; j <3; j++) {
-					System.out.println(A[i][j]);
+					System.out.print(arr[i][j] + "\t");
 				}
+				System.out.println("\n");
 			}
 		}
 		
@@ -37,12 +38,17 @@ public class ArraySum {
 		
 		public static void main(String[] args) {
 			int [][] A = new int [2][3];
+			int [][] A1 = new int [2][3];
 			int [][] B = new int [3][4];
 			int [][] C = new int [2][4];
 			int [][] D = new int [3][2];
-
+			int [][] A2 = SumMatrix(A, A1);
+			
 			getArr(A);
-			ShowMatrix(A)
-			System.out.println(A);
+			ShowMatrix(A);
+			getArr(A1);
+			getArr(A2);
+			ShowMatrix(A2);
+
 }
 }
