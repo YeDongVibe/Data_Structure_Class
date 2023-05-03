@@ -40,7 +40,7 @@ public class MethodList {
 	}
 
 
-	public static void main(String[] args) {
+	public static void main(Stringssss[] args) {
 		int [] data = new int [10];
 		getData (data);
 		showData(data);
