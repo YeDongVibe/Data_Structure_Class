@@ -2,54 +2,90 @@ package Chapter03;
 
 //이진 검색
 
-import java.util.Scanner;
+import java.util.Arrays;
+import java.util.Random;
 
-class binarysearch {
- //--- 요솟수가 n개인 배열 a에서 key와 같은 요소를 이진 검색 ---//
- static int binSearch(int[] a, int n, int key) {
-     int pl = 0;            // 검색 범위의 첫 인덱스
-     int pr = n - 1;        // 검색 범위의 끝 인덱스
+public class binarysearch {
 
-     do {
-         int pc = (pl + pr) / 2;     // 중앙 요소 인덱스
-         if (a[pc] == key)
-             return pc;              // 검색 성공!
-         else if (a[pc] < key)
-             pl = pc + 1;            // 검색 범위를 뒤쪽 절반으로 좁힘
-         else
-             pr = pc - 1;            // 검색 범위를 앞쪽 절반으로 좁힘
-     } while (pl <= pr);
+	private static void inputData(int[] data) {
+		// 난수 생성하여 배열에 입력
+		Random rand = new Random(System.currentTimeMillis()); // 초기 ceed값
+		for (int i = 0; i < data.length; i++) {
+			data[i] = rand.nextInt(40); // 10이하 정수 출력
+			for(int j = 0; j < i; j++) {
+				if(data[i] == data[j]) {
+					i--;
+					break;
+				}
+			}
+		}
 
-     return -1;                      // 검색 실패
- }
+	}
 
- public static void main(String[] args) {
-     Scanner stdIn = new Scanner(System.in);
+	private static void showData(int[] data) {
+		// 배열 출력
+		for (int i = 0; i < data.length; i++) {
+			System.out.print(data[i] + " ");
+		}
+	}
 
-     System.out.print("요솟수: ");
-     int num = stdIn.nextInt();
-     int[] x = new int[num];              // 요솟수가 num인 배열
+	private static void sortData(int[] data) {
+		for (int k = 0; k < data.length; k++) {
+			for (int l = k + 1; l < data.length; l++) {
+				if (data[k] > data[l]) {
+					int temp = data[k];
+					data[k] = data[l];
+					data[l] = temp;
+				}
+			}
+		}
 
-     System.out.println("오름차순으로 입력하세요.");
+	}
 
-     System.out.print("x[0]: ");        // 첫 요소 읽력받음
-     x[0] = stdIn.nextInt();
+	private static int linearSearch(int[] data, int key) {
+		int i = 0;
+		while (i < data.length) {
+			if (data[i] == key)
+				return i;
+			i++;
+		}
+		return -1;
+	}
 
-     for (int i = 1; i < num; i++) {
-         do {
-             System.out.print("x[" + i + "]: ");
-             x[i] = stdIn.nextInt();
-         } while (x[i] < x[i - 1]);    // 바로 앞의 요소보다 작으면 다시 입력받음
-     }
+	private static int binarySearch(int[] data, int key) {
+		int m = 0;
+		int l = 0;
+		int r = data.length -1;
+		while (l <= r) {
+			m = (l + r ) /2;
+			if (data[m] <key) l = m + 1;
+			else if (data[m] > key) r = m - 1;
+			else return l;
+		}
+		return -1;
+	}
 
-     System.out.print("검색할 값: ");       // 킷값을 읽어 들임
-     int ky = stdIn.nextInt();
+	public static void main(String[] args) {
+		int[] data = new int[10];
+		inputData(data);
+		System.out.println("정렬 전 결과");
+		showData(data);
+		System.out.print("\n정렬 후 결과");
+		sortData(data);
+		System.out.println();
+		for (int num : data) {
+			System.out.print(num + " ");
+		}
+		int key = 33;
+		int result = linearSearch(data, key);
+		System.out.println("\nlinearSearch(): result = " + result);
 
-     int idx = binSearch(x, num, ky);    // 배열 x에서 값이 ky인 요소를 검색
+		key = 39;
+		result = binarySearch(data, key);
+		System.out.println("\nbinarySearch(): result = " + result);
+		int idx = Arrays.binarySearch(data, key);
+		System.out.println("\nArrays.binarySearch(): result = " + result);
 
-     if (idx == -1)
-         System.out.println("검색 값의 요소가 없습니다.");
-     else
-         System.out.println("검색 값은 x[" + idx + "]에 있습니다.");
- }
+	}
+
 }
