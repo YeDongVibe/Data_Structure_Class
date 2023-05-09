@@ -13,6 +13,8 @@ class PhyscData implements Comparable<PhyscData> {
 		this.vision = vision;
 	}
 
+
+
 	public int compareTo(PhyscData cp) {
 		if (this.name.compareTo(cp.name) == 0) {
 			if (this.height == cp.height) {
@@ -32,7 +34,27 @@ class PhyscData implements Comparable<PhyscData> {
 		}
 		return 0;
 	}
-
+	
+//	public boolean equals(PhyscData cp) {
+//		if (this.name.equals(cp.name)) {
+//			if (this.height == cp.height) {
+//				if (this.vision == cp.vision) {
+//					return true;
+//				} else if (this.vision < cp.vision) {
+//					return false;
+//				} else {
+//					return equals(cp);
+//				}
+//			}
+//
+//		} else if (this.name.equals(cp.name)) {
+//			return false;
+//		} else {
+//			return equals(cp);
+//		}
+//		return true;
+//	}
+	
 	@Override
 	public String toString() {
 		return name + " (" + height + "cm, " + vision + ")";
@@ -60,9 +82,9 @@ public class gildongsearch {
 	private static int linearSearch(PhyscData[] data, PhyscData key) {
 		int i = 0;
 		while (i < data.length) {
-			if (data[i] == key)
+			if (data[i].equals(key)) //객체는 무조건 equal
 				return i;
-			i++;
+			else i++;
 		}
 		return -1;
 	}
