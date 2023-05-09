@@ -36,33 +36,22 @@ class Fruit {
 		return name;
 	}
 
-//	public int compareTo(Fruit fr) {
-//		if (this.name.compareTo(fr.name) == 0) {
-//			if (this.price == fr.price) {
-//				if (this.expire.compareTo(fr.expire) == 0) {
-//					return 0;
-//				} else if (this.expire.compareTo(fr.expire) < 0) {
-//					return -1;
-//				} else {
-//					return 1;
-//				}
-//			}
-//
-//		} else if (this.name.compareTo(fr.name) < 0) {
-//			return -1;
-//		} else {
-//			return 1;
-//		}
-//		return 0;
-//	}
-
 }
 
 public class fruitsearch {
 
 	private static void sortData(Fruit[] arr, Comparator<Fruit> cc_price) {
-		Arrays.sort(arr, cc_price);
+		for (int i = 0; i < arr.length - 1; i++) {
+			for (int j = i + 1; j < arr.length; j++) {
+				if (cc_price.compare(arr[i], arr[j]) > 0) {
+					Fruit temp = arr[i];
+					arr[i] = arr[j];
+					arr[j] = temp;
+				}
+			}
+		}
 	}
+
 
 	static void showData(Fruit[] arr) {
 
