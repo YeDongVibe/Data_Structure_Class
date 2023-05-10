@@ -12,26 +12,25 @@ class PhyscData implements Comparable<PhyscData> {
 		this.height = height;
 		this.vision = vision;
 	}
-
-	public boolean equals(PhyscData cp) {
-		if (this.name.compareTo(cp.name) == 0) {
-			if (this.height == cp.height) {
-				if (this.vision == cp.vision) {
-					return true;
-				} else if (this.vision < cp.vision) {
-					return false;
-				} else {
-					return false;
-				}
-			}
-
-		} else if (this.name.compareTo(cp.name) < 0) {
-			return false;
-		} else {
-			return false;
-		}
-		return true;
+	
+	
+	public boolean equals(Object obj) {
+	    if (obj == null || !(obj instanceof PhyscData)) {
+	        return false;
+	    }
+	    PhyscData cp = (PhyscData) obj;
+	    return this.name.equals(cp.name) && this.height == cp.height && this.vision == cp.vision;
 	}
+	
+//	public boolean equals(PhyscData cp) {
+//		if(cp == null) {
+//			return false;
+//		}
+//		if (cp == this) {
+//			return true;
+//		}
+//		else  return false;
+//	}
 
 	public int compareTo(PhyscData cp) {
 		if (this.name.compareTo(cp.name) == 0) {
@@ -96,12 +95,22 @@ public class gildongsearch {
 		}
 
 	}
-
+	
+//	private static int linearSearch(PhyscData[] data, PhyscData key) {
+//	    for (int i = 0; i < data.length; i++) {
+//	        if (data[i].equals(key)) {
+//	            return i;
+//	        }
+//	    }
+//	    return -1;
+//	}
+//	
 	private static int linearSearch(PhyscData[] data, PhyscData key) {
 		int i = 0;
-		while(i > data.length) {
-			if(data[i].equals(key)) 
+		while(i < data.length) {
+			if(data[i].equals(key)) {
 				return i;
+			}
 				i++;
 		}
 		return -1;
