@@ -61,7 +61,8 @@ public class fruitsearch {
 
 	}
 
-	private static int binarySearch(Fruit[] arr, Fruit newFruit, Comparator<Fruit> cc_name) {
+	//Static의 의미 :  객체가 여러개 만들어져도 오직 하나의 값만 ? : 공유 변수
+	private static int binarySearch(Fruit[] arr, Fruit newFruit, Comparator<Fruit> cc_name) { // 타입 
 		int m;
 		int l = 0;
 		int r = arr.length - 1;
@@ -101,10 +102,11 @@ public class fruitsearch {
 				return a1.getName().compareTo(a2.getName());
 			}
 		});
+		
 		System.out.println("\ncomparator 정렬(이름)후 객체 배열: ");
 		showData(arr);
 
-		Comparator<Fruit> cc_name = new Comparator<Fruit>() {// 익명클래스 사용
+		Comparator<Fruit> cc_name = new Comparator<Fruit>() {// 익명클래스 사용 //이름을 이용해서 비교하는 Comparator
 
 			@Override
 			public int compare(Fruit f1, Fruit f2) {
@@ -113,7 +115,8 @@ public class fruitsearch {
 			}
 
 		};
-		Comparator<Fruit> cc_price = new Comparator<Fruit>() {
+		
+		Comparator<Fruit> cc_price = new Comparator<Fruit>() { // 익명클래스에서 생선된 객체를 cc_pirce가 가지고있고, 이로 구현된 것이 compare임.
 
 			@Override
 			public int compare(Fruit f1, Fruit f2) {
@@ -121,11 +124,20 @@ public class fruitsearch {
 			}// 익명클래스 사용
 
 		};
-
+		
+		Comparator<Fruit> cc_expire = new Comparator<Fruit>() {
+			
+			@Override
+			public int compare(Fruit f1, Fruit f2) {
+				// TODO Auto-generated method stub
+				return (f1.expire.compareTo(f2.expire));
+			}
+		};
+		
 		Fruit newFruit = new Fruit("체리", 500, "2023-5-18");
-		int result3 = Arrays.binarySearch(arr, newFruit, cc_name);
+		int result3 = Arrays.binarySearch(arr, newFruit, cc_name); //자바에서 제공하는 binarySearch 사용 //main내에서 만들어 사용
 		System.out.println("\nArrays.binarySearch() 조회결과::" + result3);
-		result3 = binarySearch(arr, newFruit, cc_name);
+		result3 = binarySearch(arr, newFruit, cc_name);//내가 만드는 binarySearch 사용
 		System.out.println("\nbinarySearch() 조회결과::" + result3);
 
 		sortData(arr, cc_price);
@@ -136,5 +148,15 @@ public class fruitsearch {
 		result3 = binarySearch(arr, newFruit, cc_price);
 		System.out.println("\nbinarySearch() 조회결과::" + result3);
 	}
+	
+//	int binarySearch(Fruit [] arr, Fruit newFruit, Comparator<? super Fruit> cc) {
+//		//이진 탐색 코드 가져와서 Fruit 버전으로 변경
+//		//if 문에서 비교할 때
+//		Fruit d1 = arr[0];
+//		Fruit d2 = arr[1];
+//		if(cc.compare(d1, d2) > 0) {
+//			
+//		}
+//	}
 
 }
