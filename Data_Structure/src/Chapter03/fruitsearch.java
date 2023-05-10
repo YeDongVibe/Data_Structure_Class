@@ -36,6 +36,11 @@ class Fruit {
 		return name;
 	}
 
+	public String getExpire() {
+		// TODO Auto-generated method stub
+		return expire;
+	}
+
 }
 
 public class fruitsearch {
@@ -61,8 +66,9 @@ public class fruitsearch {
 
 	}
 
-	//Static의 의미 :  객체가 여러개 만들어져도 오직 하나의 값만 ? : 공유 변수
-	private static int binarySearch(Fruit[] arr, Fruit newFruit, Comparator<Fruit> cc_name) { // 타입 
+	//Static의 의미 : 메모리적 의미에서 객체가 여러개 만들어져도 오직 하나의 값만 생성됨 : 공유 변수
+	// 사용 이유는 ? 객체에서 값 하나만 만들겠다
+	private static int binarySearch(Fruit[] arr, Fruit newFruit, Comparator<Fruit> cc_name) { //변수의 타입을 무조건 명시해줘야함. 
 		int m;
 		int l = 0;
 		int r = arr.length - 1;
@@ -92,7 +98,11 @@ public class fruitsearch {
 				new Fruit("체리", 10, "2023-9-8") };
 		System.out.println("\n정렬전 객체 배열: ");
 		showData(arr);
-		Arrays.sort(arr, (a, b) -> a.getPrice() - b.getPrice()); // Fruit에 compareTo()가 있어도 람다식 우선 적용
+		Arrays.sort(arr, (a, b) -> a.getPrice() - b.getPrice()); // Fruit에 compareTo()가 있어도 람다식 우선 적용 //람다식이 compare 연산자의 c로 들어간거.
+		//interface Comparator<T>{
+		// int compare(Ta, Tb) }에서 
+		//(a, b) -> a.getPrice() - b.getPrice() : (a,b) = compare(Ta. Tb)를 의미. / a.getPrice와 b.getPrice는 함수의 바디.
+		
 		System.out.println("\n람다식 정렬(가격)후 객체 배열: ");
 		showData(arr);
 
@@ -125,6 +135,8 @@ public class fruitsearch {
 
 		};
 		
+		
+		
 		Comparator<Fruit> cc_expire = new Comparator<Fruit>() {
 			
 			@Override
@@ -147,6 +159,16 @@ public class fruitsearch {
 		System.out.println("\nArrays.binarySearch() 조회결과::" + result3);
 		result3 = binarySearch(arr, newFruit, cc_price);
 		System.out.println("\nbinarySearch() 조회결과::" + result3);
+		
+		sortData(arr, cc_expire);
+		System.out.println("\ncomparator 정렬(유효기간)후 객체 배열: ");
+		showData(arr);
+		Arrays.sort(arr,cc_expire);
+		result3 = Arrays.binarySearch(arr, newFruit, cc_expire);
+		System.out.println("\nArrays.binarySearch() 조회결과::" + result3);
+		result3 = binarySearch(arr, newFruit, cc_expire);
+		System.out.println("\nbinarySearch() 조회결과::" + result3);
+
 	}
 	
 //	int binarySearch(Fruit [] arr, Fruit newFruit, Comparator<? super Fruit> cc) {
