@@ -10,7 +10,12 @@ import java.util.Scanner;
 
 	// --- 실행시 예외: 스택이 비어있음 ---//
 	public class EmptyIntStackException extends RuntimeException {
-		public EmptyIntStackException() {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		public EmptyIntStackException() { //생성자만 만들어서 사용할 예정이기에 굳이 시리얼 아이디 추가할 필요는 없다
 		}
 	}
 
