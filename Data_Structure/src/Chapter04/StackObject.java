@@ -91,6 +91,7 @@ class ObjectStack {
 	}
 }
 
+
 class Point {
 	private int ix;
 	private int iy;
