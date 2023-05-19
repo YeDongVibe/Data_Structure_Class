@@ -9,10 +9,10 @@ public class Queen {
 
 	
 	public static void SolveQueen(int[][] data) {
-		int count = 0, mode = 0;
+		int count = 0;
 		// x : icol, y : irow 로 바꿈/직관적으로 보기 위해 이렇게 생각하기
 		// icol : 가로축 , crow : 세로축
-		int icol = 0, irow = 0;
+		int icol = 0, irow = 3;
 		ObjectStack st = new ObjectStack(10);
 
 		// 초기 (0.0)위치에 Queen 배치.
@@ -21,7 +21,7 @@ public class Queen {
 		p.setRow(irow);
 		p.setCol(icol);
 
-		data[icol][irow] = 1;
+		data[irow][icol] = 1;
 		count++;
 		st.push(p);
 		System.out.println("push : " + p);
@@ -50,7 +50,7 @@ public class Queen {
 					crow++; //만약 자리를 못찾으면 증가함.
 				}
 				
-				if (crow < data[0].length) { //다음 col의 자리를 찾겠다.
+				if (crow < data.length) { //다음 col의 자리를 찾겠다.
 					break;
 				} else { //놓을 수 없는 자리가 없을 때
 					p = st.pop(); //다른자리에 놓겠다.그래서 pop을 하여 꺼냄.

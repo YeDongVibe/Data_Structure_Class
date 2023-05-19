@@ -38,8 +38,7 @@ public class ObjectStack {
 			throw new OverflowObjectStackException();
 
 		data.add(x);
-		top++;
-		return x;
+		return data.get(top++);
 	}
 
 	// --- 스택에서 데이터를 팝(정상에 있는 데이터를 꺼냄) ---//
@@ -47,6 +46,9 @@ public class ObjectStack {
 		if (top <= 0) // 스택이 빔
 			throw new EmptyObjectStackException();
 
+//		 Point item = data.remove(--top);
+//		    return item;
+		
 		return data.remove(--top);
 	}
 
