@@ -65,7 +65,7 @@ public class Queen {
 		}
 	}
 
-	public static boolean checkRow(int[][] data, int row) {// 가로체크하기
+	public static boolean checkRow(int[][] data, int row) {// 가로체크하기 / 배열 data에서 row에 Queen을 놓을 수 있는가?
 		for (int c = 0; c < data[row].length; c++) {
 			if (data[row][c] == 1) // row는 고정하고 col을 이동하면서 체크하기
 				return false;
@@ -73,7 +73,7 @@ public class Queen {
 		return true;
 	}
 
-	public static boolean checkCol(int[][] data, int col) {// 세로체크하기
+	public static boolean checkCol(int[][] data, int col) {// 세로체크하기 / 배열 data에서 col에 배치할 수 있는가?가능하면 true로 리턴함.
 		for (int r = 0; r < data[col].length; r++) { // row는 고정하고 col을 이동하면서 체크하기
 			if (data[r][col] == 1) {
 				return false;
@@ -149,9 +149,13 @@ public class Queen {
 		}
 	}
 
-	public static boolean NextMove(int[][] data, int row, int col) {// 다음 row에 대하여 이동할 col을 조사
-
-		return true;
+	public static int NextMove(int[][] data, int row, int col) {// 다음 row에 대하여 이동할 col을 조사
+		while (col<data[0].length) {
+			if(CheckMove(data, row, col)) 
+				return col;
+				col++;
+		}
+		return data[0].length;
 	}
 
 	public static void main(String[] args) {
