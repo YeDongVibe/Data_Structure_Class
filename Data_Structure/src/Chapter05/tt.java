@@ -2,10 +2,16 @@ package Chapter05;
 
 public class tt {
     static final int qCount = 8;
+    
+	static int count = 0;
+	static int icol = 0; 
+	static int irow = 0;
+
+
 
     public static void SolveQueen(int[][] data) {
-        int count = 0;
-        int icol = 0, irow = 4;
+//        int count = 0;
+//        int icol = 0, irow = 4;
         ObjectStack st = new ObjectStack(10);
 
         // 초기 (0.0)위치에 Queen 배치.
@@ -16,7 +22,7 @@ public class tt {
         data[irow][icol] = 1;
         count++;
         st.push(p);
-        System.out.println("push : " + p);
+       // System.out.println("push : " + p);
 
         while (count < qCount) {
             icol++; // 가로로 하나 증가
@@ -30,7 +36,7 @@ public class tt {
                         p.setCol(icol);
 
                         st.push(p);
-                        System.out.println("push : " + p);
+                       // System.out.println("push : " + p);
                         count++;
 
                         data[crow][icol] = 1;
@@ -39,25 +45,20 @@ public class tt {
                     crow++;
                 }
 
-                if (crow < data.length) {
-                    break;
-                } else {
-//                    if (!st.isEmpty()) {
-                        p = st.pop();
-                        System.out.println("pop  : " + p);
-                        count--;
-                        data[p.getRow()][p.getCol()] = 0;
-
-                        icol = p.getCol();
-                        crow = p.getRow() + 1;
-                }
-//                    } else {
-//                        break;
-//                    }
+                if (count == qCount) {
+                    // All queens are placed, print the solution
+                    printSolution(data);
+                    p = st.pop();
+                    // Decrease count and backtrack to find the next solution
+                    count--;
+                    data[p.getRow()][p.getCol()] = 0;
+                    icol = p.getCol();
+                    crow = p.getRow() + 1;
                 }
             }
         }
-//    }
+        printSolution(data);
+        }
 
     public static boolean checkRow(int[][] data, int row) {
         for (int c = 0; c < data[row].length; c++) {
@@ -151,7 +152,26 @@ public class tt {
         }
         return data[0].length;
     }
-
+    
+    
+    
+    public static void printSolution(int[][] data) {
+        displaySolution(data);
+    }
+    public static void displaySolution(int[][] data) {
+        for (int i = 0; i < data.length; i++) {
+            for (int j = 0; j < data[0].length; j++) {
+                if (data[i][j] == 1) {
+                    System.out.print(" Q");
+                } else {
+                    System.out.print(" -");
+                }
+            }
+            System.out.println();
+        }
+        System.out.println();
+    }
+    
     public static void main(String[] args) {
         int[][] data = new int[qCount][qCount];
         for (int i = 0; i < data.length; i++) {
@@ -159,15 +179,16 @@ public class tt {
                 data[i][j] = 0;
             }
         }
-
+        
         SolveQueen(data);
 
-        for (int i = 0; i < data.length; i++) {
-            for (int j = 0; j < data[0].length; j++) {
-                System.out.print(" " + data[i][j]);
+        for (int i = 0; i < qCount; i++) {
+            for (int j = 0; j < qCount; j++) {
+                icol = j;
+                irow = i;
+                SolveQueen(data);
+                data = new int[qCount][qCount];  // Reset the board for the next starting position
             }
-            System.out.println();
         }
     }
 }
-
