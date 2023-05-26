@@ -95,7 +95,14 @@ public class Maze {
 					System.out.println(st);	// output path
 					System.out.println("the term near the exit: " + i +" " + j);
 					System.out.println("exit: " + ix + " " + iy);
-
+					mark[g][h] = 2;
+					mark[i][j] = 2;
+					while(!st.isEmpty()) {
+						tmp = st.pop();
+						mark[tmp.x][tmp.y] = 2;
+						dire[g][h] = 2;
+					}
+					return;
 				}
 				if ((maze[g][h] == 0) && (mark[g][h] == 0)) { // new position
 					temp.x = i;  
