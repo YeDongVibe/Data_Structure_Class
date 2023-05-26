@@ -33,7 +33,7 @@ class BubbleSort2 {
 
     public static void main(String[] args) {
         Random random = new Random();
-        System.out.println("버블 정렬(버전 1)");
+        System.out.println("버블 정렬(버전 2)");
 
         int nx = 100;
         int[] x = new int[nx];
