@@ -47,6 +47,7 @@ public class IntStack {
 			throw new EmptyGenericStackException();
 		{
 			Point p = data.remove(ptr - 1);
+			ptr--;
 			return p;
 		}
 	}
