@@ -15,7 +15,7 @@ class SimpleObject {
 
 	// --- 문자열 표현을 반환 ---//
 	public String toString() {
-		return "(" + no + ") " + name;
+		return "(" + no + ") " +  (name != null ? name : "null");
 	}
 
 	public SimpleObject() {
@@ -34,7 +34,8 @@ class SimpleObject {
 		}
 		if ((sw & NAME) == NAME) {
 			System.out.print("이름: ");
-			name = sc.next();
+			sc.nextLine();
+			name = sc.nextLine();
 		}
 	}
 
@@ -98,6 +99,9 @@ class LinkedList2 {
 
 	public void Show() { // 전체 리스트를 순서대로 출력한다.
 		Node2 p = first;
+		if(p == null) {
+			System.out.println("데이터가 없습니다.");
+		}
 		while (p != null) {
 			System.out.print("show : " + p.data + " \n");
 			p = p.link;
@@ -139,6 +143,7 @@ class LinkedList2 {
 		Node2 p = first;
 		while (p != null) {
 			if (cc.compare(element, p.data) == 0) {
+				System.out.println("검색 성공 = " + p.data.toString());
 				return true;
 			}
 			p = p.link;
@@ -214,10 +219,13 @@ public class ObjectLinkList {
 				data = new SimpleObject();
 				data.scanData("탐색", SimpleObject.NO);
 				boolean result = l.Search(data, SimpleObject.NO_ORDER);
-				if (result == true)
-					System.out.println("검색 성공 = " + result);
-				else
+				if(result == false) {
 					System.out.println("검색 실패 = " + result);
+				}
+//				if (result == true)
+//					System.out.println("검색 성공 = " + data);
+//				else
+//					System.out.println("검색 실패 = " + result);
 				break;
 			case Exit: // 꼬리 노드 삭제
 				break;

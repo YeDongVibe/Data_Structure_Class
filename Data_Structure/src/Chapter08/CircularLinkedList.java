@@ -81,21 +81,79 @@ class CircularList {
 	}
 
 	public int Delete(SimpleObject3 element, Comparator<SimpleObject3> cc) {// delete the element
-	
+		Node3 p = first;
+		Node3 q = null;
+		while (p != null) {
+			if (cc.compare(element, p.data) == 0) {
+				if (p == first) {
+					first = p.link;
+					return Delete(element, cc);
+				} else {
+					q.link = p.link;
+					return Delete(element, cc);
+				}
+			} else { // ele != p.data
+				q = p;
+				p = p.link;
+			}
+
+		}
+		return 0;
 
 	}
 
 	public void Show() { // 전체 리스트를 순서대로 출력한다.
-
+		Node3 p = first;
+		if (p == null) {
+			System.out.println("데이터가 없습니다.");
+		}
+		while (p != null) {
+			System.out.print("show : " + p.data + " \n");
+			p = p.link;
+		}
 	}
 
 	public void Add(SimpleObject3 element, Comparator<SimpleObject3> cc) {// 임의 값을 삽입할 때 리스트가 오름차순으로 정렬이 되도록 한다
-	
+		Node3 nd = new Node3(element);
+		Node3 p = first;
+		Node3 q = null;
+		if (p == null) {
+			first = nd;
+			return;
+		}
+		while (p != null) {
+			if (cc.compare(element, p.data) < 0) {
+				if (p == first) { // p가 첫번째일때
+					nd.link = p;
+					first = nd;
+					return;
+				} else { // p가 첫번째가 아닐때
+					nd.link = p;
+					q.link = nd;
+					return;
+				}
+			} else if (cc.compare(element, p.data) > 0) {
+				q = p;
+				p = p.link;
+				if (p == null) {
+					q.link = nd;
+					return;
+				}
+			}
+		}
 
 	}
 
 	public boolean Search(SimpleObject3 element, Comparator<SimpleObject3> cc) { // 전체 리스트를 순서대로 출력한다.
-
+		Node3 p = first;
+		while (p != null) {
+			if (cc.compare(element, p.data) == 0) {
+				System.out.println("검색 성공 = " + p.data.toString());
+				return true;
+			}
+			p = p.link;
+		}
+		return false;
 	}
 }
 
@@ -165,10 +223,13 @@ public class CircularLinkedList {
 				data = new SimpleObject3();
 				data.scanData("탐색", SimpleObject3.NO);
 				boolean result = l.Search(data, SimpleObject3.NO_ORDER);
-				if (result == true)
-					System.out.println("검색 성공 = " + result);
-				else
+				if (result == false) {
 					System.out.println("검색 실패 = " + result);
+				}
+//				if (result == true)
+//					System.out.println("검색 성공 = " + result);
+//				else
+//					System.out.println("검색 실패 = " + result);
 				break;
 			case Exit: // 꼬리 노드 삭제
 				break;

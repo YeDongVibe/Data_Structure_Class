@@ -161,7 +161,7 @@ public class IntLinkedList {
 			case Search: // 회원 번호 검색
 				int n = sc.nextInt();
 				boolean result = l.Search(n);
-				if (result == false)
+				if (result == false) 
 					System.out.println("검색 값 = " + n + "데이터가 없습니다.");
 				else
 					System.out.println("검색 값 = " + n + "데이터가 존재합니다.");
