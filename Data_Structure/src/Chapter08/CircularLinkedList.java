@@ -140,6 +140,12 @@ class CircularList {
 					return;
 				}
 			}
+			if (p == first) { // 마지막 노드일 경우 첫 번째 노드와 연결
+				q.link = nd;
+				nd.link = first;
+				break;
+			}
+
 		}
 
 	}

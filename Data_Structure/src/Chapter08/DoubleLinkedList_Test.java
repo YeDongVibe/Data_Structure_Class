@@ -183,7 +183,7 @@ class DoubledLinkedList2 {
 	}
 
 	public DoubledLinkedList2 merge(DoubledLinkedList2 lst2) {
-
+		
 	}
 }
 
