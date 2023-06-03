@@ -42,6 +42,9 @@ class SimpleObject2 {
 
 	private static class NoOrderComparator implements Comparator<SimpleObject2> {
 		public int compare(SimpleObject2 d1, SimpleObject2 d2) {
+			if (d2 == null) {
+				return -1; // 두 번째 객체가 null이면 첫 번째 객체가 더 작다고 가정
+			}
 			return (d1.no.compareTo(d2.no) > 0) ? 1 : ((d1.no.compareTo(d2.no) < 0)) ? -1 : 0;
 		}
 	}
@@ -104,50 +107,79 @@ class DoubledLinkedList2 {
 
 // --- 노드를 검색 ---//
 	public boolean search(SimpleObject2 obj, Comparator<? super SimpleObject2> c) {
-		Node4 <SimpleObject2> p = first;
-
+		Node4 p = first;
+		while (p != null) {
+			if (c.compare(obj, p.data) == 0) {
+				System.out.println("검색 성공 = " + p.data.toString());
+				return true;
+			}
+			p = p.rlink;
+		}
+		return false;
 	}
 
 // --- 전체 노드 표시 ---//
 	public void show() {
-
+		Node4 p = first.rlink;
+		if (isEmpty()) { // 리스트가 비어있을 경우
+			System.out.println("데이터가 없습니다.");
+			return;
+		}
+		while (p != first) {
+			System.out.println("show: " + p.data + "\n");
+			p = p.rlink;
+		}
 	}
 
 // --- 올림차순으로 정렬이 되도록 insert ---//
 	public void add(SimpleObject2 obj, Comparator<? super SimpleObject2> c) {
 		Node4 nd = new Node4(obj);
-		Node4 p = first;
+		Node4 p = first.rlink;
 		Node4 q = null;
-		if (p == null) {
-			first = nd;
+		if (p == first) { // 리스트가 비어있을 경우
+			nd.rlink = first;
+			first.rlink = nd;
 			return;
 		}
-		while (p != null) {
-			if (c.compare(obj, p.data) < 0) {
-				if (p == first) { // p가 첫번째일때
-					nd.rlink = p;
-					first = nd;
-					return;
-				} else { // p가 첫번째가 아닐때
-					nd.rlink = p;
-					q.llink = nd;
-					return;
+		while (p != first) {
+			if (c.compare(obj, p.data) < 0) { // obj가 p.data보다 작을 경우
+				nd.rlink = p;
+				if (q == null) {
+					first.rlink = nd;
+				} else {
+					q.rlink = nd;
 				}
-			} else if (c.compare(obj, p.data) > 0) {
-				q = p;
-				p = p.rlink;
-				if (p == null) {
-					q.llink = nd;
-					return;
-				}
+				return;
 			}
+			q = p;
+			p = p.rlink;
 		}
+		q.rlink = nd; // 리스트의 마지막에 노드 추가
+		nd.rlink = first;
 
 	}
 
 // --- list에 삭제할 데이터가 있으면 해당 노드를 삭제 ---//
 	public void delete(SimpleObject2 obj, Comparator<? super SimpleObject2> c) {
-
+		Node4 p = first.rlink;
+		Node4 q = null;
+		if (isEmpty()) { // 리스트가 비어있을 경우
+			System.out.println("데이터가 없습니다.");
+			return;
+		}
+		while (p != first) {
+			if (c.compare(obj, p.data) == 0) { // obj와 p.data가 같을 경우
+				if (q == null) { // 첫 번째 노드를 삭제할 경우
+					first.rlink = p.rlink;
+				} else {
+					q.rlink = p.rlink;
+				}
+				return;
+			}
+			q = p;
+			p = p.rlink;
+		}
+		System.out.println("데이터가 존재하지 않습니다.");
 	}
 
 	public DoubledLinkedList2 merge(DoubledLinkedList2 lst2) {
@@ -251,6 +283,7 @@ public class DoubleLinkedList_Test {
 					System.out.println("list3: ");
 					lst3.show();
 				}
+				break;
 			case Exit: // 꼬리 노드 삭제
 				break;
 			}

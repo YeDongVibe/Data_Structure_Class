@@ -103,7 +103,7 @@ class LinkedList2 {
 			System.out.println("데이터가 없습니다.");
 		}
 		while (p != null) {
-			System.out.print("show : " + p.data + " \n");
+			System.out.print("shosw : " + p.data + " \n");
 			p = p.link;
 		}
 	}
