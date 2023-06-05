@@ -77,13 +77,15 @@ class CircularList {
 	Node3 first;
 
 	public CircularList() { // head node
-
+		Node3 newNode = new Node3(null);
+		newNode.link = newNode;
+		first = newNode;
 	}
 
 	public int Delete(SimpleObject3 element, Comparator<SimpleObject3> cc) {// delete the element
-		Node3 p = first;
-		Node3 q = null;
-		while (p != null) {
+		Node3 p = first.link;
+		Node3 q = first;
+		while (p != first) {
 			if (cc.compare(element, p.data) == 0) {
 				if (p == first) {
 					first = p.link;
@@ -103,11 +105,11 @@ class CircularList {
 	}
 
 	public void Show() { // 전체 리스트를 순서대로 출력한다.
-		Node3 p = first;
-		if (p == null) {
+		if (first.link == first) {
 			System.out.println("데이터가 없습니다.");
 		}
-		while (p != null) {
+		Node3 p = first.link;
+		while (p != first) {
 			System.out.print("show : " + p.data + " \n");
 			p = p.link;
 		}
@@ -115,15 +117,16 @@ class CircularList {
 
 	public void Add(SimpleObject3 element, Comparator<SimpleObject3> cc) {// 임의 값을 삽입할 때 리스트가 오름차순으로 정렬이 되도록 한다
 		Node3 nd = new Node3(element);
-		Node3 p = first;
-		Node3 q = null;
-		if (p == null) {
-			first = nd;
+		Node3 p = first.link;
+		Node3 q = first;
+		if (p == first) {
+			first.link = nd;
+			nd.link = p;
 			return;
 		}
-		while (p != null) {
+		while (p != first) {
 			if (cc.compare(element, p.data) < 0) {
-				if (p == first) { // p가 첫번째일때
+				if (p == first) {
 					nd.link = p;
 					first = nd;
 					return;
@@ -147,12 +150,11 @@ class CircularList {
 			}
 
 		}
-
 	}
 
 	public boolean Search(SimpleObject3 element, Comparator<SimpleObject3> cc) { // 전체 리스트를 순서대로 출력한다.
-		Node3 p = first;
-		while (p != null) {
+		Node3 p = first.link;
+		while (p != first) {
 			if (cc.compare(element, p.data) == 0) {
 				System.out.println("검색 성공 = " + p.data.toString());
 				return true;

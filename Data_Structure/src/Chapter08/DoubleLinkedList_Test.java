@@ -183,7 +183,31 @@ class DoubledLinkedList2 {
 	}
 
 	public DoubledLinkedList2 merge(DoubledLinkedList2 lst2) {
-		
+		DoubledLinkedList2 mergedList = new DoubledLinkedList2();
+		Node4 p1 = this.first.rlink;
+		Node4 p2 = lst2.first.rlink;
+
+		while (p1 != this.first && p2 != lst2.first) {
+			if (SimpleObject2.NO_ORDER.compare(p1.data, p2.data) <= 0) {
+				mergedList.add(p1.data, SimpleObject2.NO_ORDER);
+				p1 = p1.rlink;
+			} else {
+				mergedList.add(p2.data, SimpleObject2.NO_ORDER);
+				p2 = p2.rlink;
+			}
+		}
+
+		while (p1 != this.first) {
+			mergedList.add(p1.data, SimpleObject2.NO_ORDER);
+			p1 = p1.rlink;
+		}
+
+		while (p2 != lst2.first) {
+			mergedList.add(p2.data, SimpleObject2.NO_ORDER);
+			p2 = p2.rlink;
+		}
+
+		return mergedList;
 	}
 }
 
