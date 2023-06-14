@@ -117,7 +117,7 @@ class OpenHash2 {
   public int remove(int key) {
       Bucket p = searchNode(key);    // 주목 버킷
       if (p == null)
-          return 1;                       // 이 키값은 등록되어 있지 않음
+          return 1; // 이 키값은 등록되어 있지 않음
 
       p.setStat(Status.DELETED);
       return 0;

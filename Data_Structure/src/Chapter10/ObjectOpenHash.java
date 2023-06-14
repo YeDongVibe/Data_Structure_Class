@@ -1,4 +1,5 @@
 package Chapter10;
+
 //SimpleObject version으로 수정하기 
 import java.util.Comparator;
 import java.util.Scanner;
@@ -15,10 +16,12 @@ class SimpleObject2 {
 		this.sno = sno;
 		this.sname = sname;
 	}
+
 	public SimpleObject2() {
 		this.sno = null;
 		this.sname = null;
 	}
+
 	// --- 문자열 표현을 반환 ---//
 	public String toString() {
 		return "(" + sno + ") " + sname;
@@ -41,6 +44,7 @@ class SimpleObject2 {
 			return (d1.sname.compareTo(d2.sname) > 0) ? 1 : ((d1.sname.compareTo(d2.sname) < 0)) ? -1 : 0;
 		}
 	}
+
 	void scanData(String guide, int sw) {
 		Scanner stdIn = new Scanner(System.in);
 		System.out.println(guide + "할 데이터를 입력하세요: ");
@@ -53,7 +57,10 @@ class SimpleObject2 {
 			sname = stdIn.next();
 		}
 	}
+	
+	
 }
+
 //*
 class OpenHash {
 
@@ -63,7 +70,7 @@ class OpenHash {
 	}; // {데이터 저장, 비어있음, 삭제 완료}
 
 	// --- 버킷 ---//
-	static class Bucket { 
+	static class Bucket {
 		private SimpleObject2 data; // 데이터
 		private Status stat; // 상태
 
@@ -90,11 +97,11 @@ class OpenHash {
 		}
 
 		// --- 키의 해시값을 반환 ---//
-			public int hashCode() {
+		public int hashCode() {
 			int hash = this.data.hashCode();
-			hash = 31 * hash;
-			hash = hash * hash;
-			return hash;
+	         hash = 31 * hash;
+	         hash = hash * hash;
+	         return hash;
 		}
 	}
 
@@ -115,7 +122,7 @@ class OpenHash {
 
 	// --- 해시값을 구함 ---//
 	public int hashValue(SimpleObject2 key) {
-		return key.hashCode() % size;
+		return Integer.parseInt(key.sno) % size;
 	}
 
 	// --- 재해시값을 구함 ---//
@@ -124,12 +131,12 @@ class OpenHash {
 	}
 
 	// --- 키값 key를 갖는 버킷 검색 ---//
-	private Bucket searchNode(SimpleObject2 key) {
+	private Bucket searchNode(SimpleObject2 key, Comparator<? super SimpleObject2> c) {
 		int hash = hashValue(key); // 검색할 데이터의 해시값
 		Bucket p = table[hash]; // 주목 버킷
 
 		for (int i = 0; p.stat != Status.EMPTY && i < size; i++) {
-			if (p.stat == Status.OCCUPIED && p.getValue().equals(key))
+			if (p.stat == Status.OCCUPIED && c.compare(p.getValue(), key) == 0)
 				return p;
 			hash = rehashValue(hash); // 재해시
 			p = table[hash];
@@ -139,13 +146,14 @@ class OpenHash {
 
 	// --- 키값이 key인 요소를 검색(데이터를 반환)---//
 	public SimpleObject2 search(SimpleObject2 key, Comparator<? super SimpleObject2> c) {
-		Bucket p = searchNode(key);
+		Bucket p = searchNode(key, c);
 		if (p != null)
 			return p.getValue();
 		else
 			return null;
 	}
 
+	// --- 키값이 key인 데이터를 data의 요소로 추가 ---//
 	// --- 키값이 key인 데이터를 data의 요소로 추가 ---//
 	public int add(SimpleObject2 key, Comparator<? super SimpleObject2> c) {
 		if (search(key, c) != null)
@@ -166,12 +174,12 @@ class OpenHash {
 
 	// --- 키값이 key인 요소를 삭제 ---//
 	public int remove(SimpleObject2 key, Comparator<? super SimpleObject2> c) {
-		Bucket p = searchNode(key); // 주목 버킷
+		Bucket p = searchNode(key, c); // 주목 버킷
 		if (p == null)
-			return 1; // 이 키값은 등록되어 있지 않음
+			return 0; // 이 키값은 등록되어 있지 않음
 
 		p.setStat(Status.DELETED);
-		return 0;
+		return 1;
 	}
 
 	// --- 해시 테이블을 덤프(dump) ---//
@@ -180,7 +188,7 @@ class OpenHash {
 			System.out.printf("%02d ", i);
 			switch (table[i].stat) {
 			case OCCUPIED:
-				System.out.printf("%s (%s)\n", table[i]);
+				System.out.printf("%s \n", table[i].getValue());
 				break;
 
 			case EMPTY:
@@ -194,6 +202,7 @@ class OpenHash {
 		}
 	}
 }
+
 //*/
 public class ObjectOpenHash {
 
@@ -243,12 +252,16 @@ public class ObjectOpenHash {
 		do {
 			switch (menu = SelectMenu()) {
 			case ADD: // 추가
-
+				temp = new SimpleObject2();
 				temp.scanData("추가", SimpleObject2.NO | SimpleObject2.NAME);
 				int k = hash.add(temp, SimpleObject2.NO_ORDER);
 				switch (k) {
+				case 0:
+					System.out.println(temp + "등록 완료");
+					break;
 				case 1:
 					System.out.println("그 키값은 이미 등록되어 있습니다.");
+
 					break;
 				case 2:
 					System.out.println("해시 테이블이 가득 찼습니다.");
@@ -260,7 +273,7 @@ public class ObjectOpenHash {
 				temp.scanData("삭제", SimpleObject2.NO);
 				result = hash.remove(temp, SimpleObject2.NO_ORDER);
 				if (result == 1)
-					System.out.println(" 삭제 처리");
+					System.out.println(temp + " 삭제 처리");
 				else
 					System.out.println(" 삭제 데이터가 없음");
 				break;

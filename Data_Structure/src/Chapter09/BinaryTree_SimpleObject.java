@@ -23,6 +23,9 @@ class SimpleObject2 {
 	public SimpleObject2(String no, String name) {
 		this.no = no;this.name = name;
 	}
+	public String getNo() {
+		return no;
+	}
 	// --- 데이터를 읽어 들임 ---//
 	void scanData(String guide, int sw) {
 		Scanner sc = new Scanner(System.in);
@@ -150,16 +153,87 @@ class Tree4 {
 	}
 
 	public boolean add(SimpleObject2 obj, Comparator<? super SimpleObject2> c) {
-		
+		TreeNode4 p = root;
+		TreeNode4 temp = new TreeNode4(obj);
+
+		if (p == null) { // root가 null인 경우
+			root = temp;
+			return true;
+		}
+		while (p != null) { // root에 data가 있을 때
+			if (c.compare(obj, p.data) == 0) {
+				return false;
+			} else if (c.compare(obj, p.data) < 0) { // p.data보다 x가 작으면 왼쪽으로 삽입
+				if (p.LeftChild == null) {
+					p.LeftChild = temp;
+					return true;
+				}
+				p = p.LeftChild;
+			} else { // p.data보다 x가 크면 오른쪽으로 삽입
+				if (p.RightChild == null) {
+					p.RightChild = temp;
+					return true;
+				}
+				p = p.RightChild;
+			}
+		}
+		return false;
 	}
 
 	public boolean delete(SimpleObject2 obj, Comparator<? super SimpleObject2> c) {
+		TreeNode4 p = root;
+		TreeNode4 q = null;
 
+		if (p == null) {
+			return false;
+		}
+
+		while (p != null) {
+			if (c.compare(obj, p.data) == 0) {// 삭제하는 작업
+				if (isLeafNode(p)) { // leaf Node(자식이 없는 경우) 삭제
+					if (q == null) {
+						root = null;
+						return true;
+					} else if (p == q.LeftChild) {
+						q.LeftChild = null;
+						return true;
+					} else {
+						q.RightChild = null;
+						return true;
+					}
+				} else { // 삭제할 노드가 리프 노드가 아닌 경우 / inorder이용
+					TreeNode4 su = inorderSucc(p);
+					if (su == null) {
+						return false;
+					}
+					delete(su.data, c); // 후속자 노드를 재귀적으로 삭제
+					p.data = su.data; // 삭제할 노드의 데이터를 후속자 노드의 데이터로 대체
+					return true;
+				}
+			} else if (c.compare(obj, p.data) < 0) {// 트리를 따라가기
+				q = p;
+				p = p.LeftChild;
+			} else {
+				q = p;
+				p = p.RightChild;
+			}
+		}
+		return false; // 삭제할 노드가 없는 경우
 
 	}
 
-	boolean search(SimpleObject2 obj, Comparator<? super SimpleObject2> c) {
-
+	SimpleObject2 search(SimpleObject2 obj, Comparator<? super SimpleObject2> c) {
+		TreeNode4 p = root;
+		while (p != null) {
+			if (c.compare(obj, p.data) == 0) {
+				return p.data;
+			} else if (c.compare(obj, p.data) < 0) { // 찾는 값이 p.data보다 작으면
+				p = p.LeftChild;
+			} else { // 찾는 값이 p.data보다 크면
+				p = p.RightChild;
+			}
+		}
+		return null;
 	}
 }
 
@@ -205,10 +279,10 @@ public class BinaryTree_SimpleObject {
 		Tree4 t = new Tree4();
 		Menu menu; // 메뉴
 		String sno1, sname1;
-		SimpleObject2 so;
+		SimpleObject2 so, result;
 		int count = 0;
 		int num;
-		boolean result;
+//		boolean result;
 		do {
 			switch (menu = SelectMenu()) {
 			case Add: // 머리노드 삽입
@@ -227,10 +301,10 @@ public class BinaryTree_SimpleObject {
 	           	 so = new SimpleObject2();
 	           	 so.scanData("검색", SimpleObject2.NO);
 				result = t.search(so, SimpleObject2.NO_ORDER);
-				if (result == false)
-					System.out.println("검색 값 = " + so + "데이터가 없습니다.");
+				if (result == null)
+					System.out.println("검색 값 = " + result + "데이터가 없습니다.");
 				else
-					System.out.println("검색 값 = " + so + "데이터가 존재합니다.");
+					System.out.println("검색 값 = " + result + "데이터가 존재합니다.");
 				break;
 
 			case InorderPrint: // 전체 노드를 키값의 오름차순으로 표시
